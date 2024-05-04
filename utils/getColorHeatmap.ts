@@ -3,15 +3,15 @@ function countDecimalPlaces(number: number) {
   return decimalIndex >= 0 ? number.toString().length - decimalIndex - 1 : 0;
 }
 
-export function splitNumberIntoRanges(bigNumber: number, numRanges: number) {
+export function splitNumberIntoRanges(highNumber: number, numRanges: number, lowNumber: number = 0) {
   // Calculate the base size of each range using integer division
-  const rangeSize = bigNumber / numRanges;
+  const rangeSize = (highNumber - lowNumber) / numRanges;
 
   // Initialize an array to hold the ranges
   const ranges: number[][] = [];
 
   // Start of the first range
-  let start = 0;
+  let start = lowNumber;
 
   // Iterate through each range
   for (let i = 0; i < numRanges; i++) {
@@ -22,15 +22,15 @@ export function splitNumberIntoRanges(bigNumber: number, numRanges: number) {
     let addOffset = 1;
     if (end % 1 != 0) {
       const howManyDecimals = countDecimalPlaces(end);
-      addOffset = +('.'+'1'.padStart(howManyDecimals, '0'));
+      addOffset = parseFloat('.'+'1'.padStart(howManyDecimals, '0'));
     }
     ranges.push([start, end - addOffset]); // Subtract 1 from end to avoid overlap
 
     // Update the start of the next range
     start = end;
   }
-  // Adjust the last range to bigNumber if it is currently less than bigNumber
-  if (ranges[ranges.length -1][1] < bigNumber) ranges[ranges.length -1][1] = bigNumber;
+  // Adjust the last range to highNumber if it is currently less than highNumber
+  if (ranges[ranges.length -1][1] < highNumber) ranges[ranges.length -1][1] = highNumber;
 
   // Return the array of ranges
   return ranges;
@@ -63,11 +63,12 @@ export function findIndexWhereNumberFits(numberValue: number, arrayOfArrays: num
 [];
 function getColorHeatmap(
   highestValue: number,
-  numberValue: number,
+  highValue: number,
+  lowValue: number = 0,
   colors: string[] = ['#1d4877', '#1b8a5a', '#fbb021', '#f68838', '#ee3e32'],
 ): string {
-  const ranges = splitNumberIntoRanges(highestValue, colors.length);
-  const index = findIndexWhereNumberFits(numberValue, ranges);
+  const ranges = splitNumberIntoRanges(highestValue, colors.length, lowValue);
+  const index = findIndexWhereNumberFits(highValue, ranges);
   return colors[index];
 }
 

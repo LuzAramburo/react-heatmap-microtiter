@@ -1,4 +1,4 @@
-import { IDataCSV, IHeatmapData } from '@/App.tsx';
+import { IHeatmapData } from '@/App.tsx';
 import insertItemsEveryNItems from '../../utils/insertItemsEveryNItems.ts';
 import HeatmapWell from '@/Heatmap/HeatmapWell.tsx';
 import filterPropertiesByNumber from '../../utils/filterMetrics.ts';
@@ -23,16 +23,14 @@ function Heatmap({ heatmapData }: Props) {
   const yAxis= [...new Set(heatmapData.data.map(item => item.Metadata_Col))];
   // console.log('yAxis', yAxis);
 
-  const table = insertItemsEveryNItems<string | IDataCSV>(data, yAxis, xAxis.length - 1);
+  const table = insertItemsEveryNItems<string | {[keys: string]: string}>(data, yAxis, xAxis.length - 1);
   // console.log(table);
 
   // console.groupEnd();
 
-
   const [selectedMetric, setSelectedMetric] = useState(metrics[0]);
   const highestValue = Math.max(...data.map(item => +item[selectedMetric]));
-
-  // TODO: What happens is negative
+  const lowestValue = Math.min(...data.map(item => +item[selectedMetric]));
 
   return (
     <>
@@ -59,6 +57,7 @@ function Heatmap({ heatmapData }: Props) {
                 item={item}
                 highestValue={highestValue}
                 selectedMetric={selectedMetric}
+                lowestValue={lowestValue}
               />);
           }
           return <div key={`yAxis${item}${index}`}>{item}</div>;

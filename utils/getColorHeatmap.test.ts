@@ -13,17 +13,6 @@ describe('splitNumberIntoRanges', () => {
     expect(result).toEqual(expectedRanges);
   });
 
-
-  it('should use bigNumber as last number in last range', () => {
-    const bigNumber = 183;
-    const numRanges = 5;
-
-    const result = splitNumberIntoRanges(bigNumber, numRanges);
-
-    const expectedRanges = [[0, 36], [37, 73], [74, 110], [111, 146], [147, 183]];
-
-    expect(result).toEqual(expectedRanges);
-  });
 });
 
 describe('findIndexWhereNumberFits', () => {

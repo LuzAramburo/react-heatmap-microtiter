@@ -1,7 +1,5 @@
-import { IDataCSV } from '@/App.tsx';
-
 type Props = {
-  item: IDataCSV;
+  item: {[keys: string]: string};
 }
 
 function HeatmapPopover({ item }: Props) {
