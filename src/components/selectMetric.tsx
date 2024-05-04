@@ -11,7 +11,6 @@ function SelectMetric() {
   const metrics = formattedHeatmap?.metrics;
 
   const handleSelectedMetric = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
     updateSelectedMetric(e.target.value);
   };
 

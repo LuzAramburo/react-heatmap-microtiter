@@ -1,11 +1,12 @@
 import HeatmapWell from '@/components/Heatmap/HeatmapWell.tsx';
 import useHeatmapStore from '@/store/store.ts';
 import SelectMetric from '@/components/selectMetric.tsx';
+import HeatmapMissing from '@/components/Heatmap/HeatmapMissing.tsx';
 
 function Heatmap() {
   const { selectedMetric, formattedHeatmap } = useHeatmapStore();
 
-  if (!formattedHeatmap) return <div>Load data for visualization</div>;
+  if (!formattedHeatmap) return <HeatmapMissing />;
 
   const highestValue = Math.max(...formattedHeatmap.data.map(item => +item[selectedMetric]));
   const lowestValue = Math.min(...formattedHeatmap.data.map(item => +item[selectedMetric]));
