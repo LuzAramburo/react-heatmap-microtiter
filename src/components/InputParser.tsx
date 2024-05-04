@@ -1,10 +1,9 @@
 import Papa from 'papaparse';
 import { ChangeEvent } from 'react';
-import { IHeatmapData } from '@/App.tsx';
-import useHeatmapStore from '@/store/store.ts';
+import useHeatmapStore, { IHeatmapData } from '@/store/store.ts';
 
 function InputParser() {
-  const { updateRawHeatmap } = useHeatmapStore();
+  const { setHeatmapData } = useHeatmapStore();
 
   const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
@@ -12,7 +11,7 @@ function InputParser() {
       header: true,
       skipEmptyLines: true,
       complete: function (results: IHeatmapData) {
-        updateRawHeatmap(results);
+        setHeatmapData(results);
       },
     });
   };
