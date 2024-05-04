@@ -1,20 +1,19 @@
 import './App.css';
 import InputParser from './components/InputParser.tsx';
 import Heatmap from '@/components/Heatmap/Heatmap.tsx';
-import { useState } from 'react';
 import { ParseResult } from 'papaparse';
+import useHeatmapStore from '@/store/store.ts';
 
 export type IHeatmapData = ParseResult<{[keys: string]: string}>
 
 function App() {
-  const [heatmapData, setHeatmapData] = useState<IHeatmapData | null>(null);
-
+  const { rawHeatmap } = useHeatmapStore();
 
   return (
     <>
-      <InputParser handleInputParse={setHeatmapData} />
-      {!heatmapData && <div>Update a file</div>}
-      {heatmapData && <Heatmap heatmapData={heatmapData} />}
+      <InputParser />
+      {!rawHeatmap && <div>Update a file</div>}
+      {rawHeatmap && <Heatmap heatmapData={rawHeatmap} />}
     </>
   );
 }
