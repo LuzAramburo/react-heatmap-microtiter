@@ -6,16 +6,17 @@ import getColorHeatmap from '../../utils/getColorHeatmap.ts';
 type Props = {
   item: IDataCSV;
   highestValue: number;
+  selectedMetric: string;
 }
 
-function HeatmapWell({ item, highestValue }: Props) {
+function HeatmapWell({ item, highestValue, selectedMetric }: Props) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   return(
     <>
       <div style={{
         border: '1px solid black',
         position: 'relative',
-        background: getColorHeatmap(highestValue, +item.QC_cell_count),
+        background: getColorHeatmap(highestValue, +item[selectedMetric]),
       }}
       onMouseEnter={() => setIsPopoverOpen(true)}
       onMouseLeave={() => setIsPopoverOpen(false)}

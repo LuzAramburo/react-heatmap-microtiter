@@ -1,9 +1,11 @@
+function countDecimalPlaces(number: number) {
+  const decimalIndex = number.toString().indexOf('.');
+  return decimalIndex >= 0 ? number.toString().length - decimalIndex - 1 : 0;
+}
+
 export function splitNumberIntoRanges(bigNumber: number, numRanges: number) {
   // Calculate the base size of each range using integer division
-  const baseRangeSize = Math.floor(bigNumber / numRanges);
-
-  // Calculate the remainder
-  const remainder = bigNumber % numRanges;
+  const rangeSize = bigNumber / numRanges;
 
   // Initialize an array to hold the ranges
   const ranges: number[][] = [];
@@ -13,15 +15,16 @@ export function splitNumberIntoRanges(bigNumber: number, numRanges: number) {
 
   // Iterate through each range
   for (let i = 0; i < numRanges; i++) {
-    // Calculate the size of the current range
-    // Add 1 to the base range size if the current range index is less than the remainder
-    const rangeSize = baseRangeSize + (i < remainder ? 1 : 0);
-
     // Calculate the end of the current range
     const end = start + rangeSize;
 
     // Add the current range as a tuple [start, end]
-    ranges.push([start, end - 1]); // Subtract 1 from end to avoid overlap
+    let addOffset = 1;
+    if (end % 1 != 0) {
+      const howManyDecimals = countDecimalPlaces(end);
+      addOffset = +('.'+'1'.padStart(howManyDecimals, '0'));
+    }
+    ranges.push([start, end - addOffset]); // Subtract 1 from end to avoid overlap
 
     // Update the start of the next range
     start = end;

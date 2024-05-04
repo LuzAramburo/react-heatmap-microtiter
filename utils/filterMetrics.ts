@@ -1,5 +1,6 @@
 import canBeNumber from './canBeNumber';
 
+// TODO filter only meta data and empty string?
 function filterPropertiesByNumber<T>(obj: T) {
   // Create a new object to hold the filtered properties
   const filteredObj: {[keys: string]: number} = {};
@@ -8,6 +9,7 @@ function filterPropertiesByNumber<T>(obj: T) {
   for (const key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
       if (key === '') continue; // Skip this property if the key is an empty array
+      if (key.includes('Meta')) continue; // Skip Metadata
       // Get the value of the current property
       const value = obj[key];
 

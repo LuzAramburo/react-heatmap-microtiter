@@ -28,11 +28,11 @@ function Heatmap({ heatmapData }: Props) {
 
   // console.groupEnd();
 
-  const highestValue = Math.max(...data.map(item => +item.QC_cell_count));
 
   const [selectedMetric, setSelectedMetric] = useState(metrics[0]);
+  const highestValue = Math.max(...data.map(item => +item[selectedMetric]));
 
-  // TODO: What happens to ranges if is less than 0 the highestValue
+  // TODO: What happens is negative
 
   return (
     <>
@@ -44,7 +44,6 @@ function Heatmap({ heatmapData }: Props) {
         ))}
       </select>
       <div>selectedMetric: {selectedMetric}</div>
-      <div>Value: QC_cell_count</div>
       <div>Highest: {highestValue}</div>
       <div style={{
         display: 'grid',
@@ -54,7 +53,13 @@ function Heatmap({ heatmapData }: Props) {
         {xAxis.map((item, index) => <div key={`xAxis${item + index}`}>{item}</div>)}
         {table.map((item, index) => {
           if (typeof item === 'object' && !Array.isArray(item) && item !== null) {
-            return <HeatmapWell key={`data${item.Metadata_Well + index}`} item={item} highestValue={highestValue} />;
+            return (
+              <HeatmapWell
+                key={`data${item.Metadata_Well + index}`}
+                item={item}
+                highestValue={highestValue}
+                selectedMetric={selectedMetric}
+              />);
           }
           return <div key={`yAxis${item}${index}`}>{item}</div>;
         })}
