@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import canBeNumber from './canBeNumber';
+import canBeNumber from './canBeNumber.ts';
 
 describe('canBeNumber', () => {
   it('should return true for valid integer strings', () => {

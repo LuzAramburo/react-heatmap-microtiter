@@ -1,7 +1,7 @@
 import { IHeatmapData } from '@/App.tsx';
-import insertItemsEveryNItems from '../../utils/insertItemsEveryNItems.ts';
-import HeatmapWell from '@/Heatmap/HeatmapWell.tsx';
-import filterPropertiesByNumber from '../../utils/filterMetrics.ts';
+import insertItemsEveryNItems from '@/utils/insertItemsEveryNItems.ts';
+import HeatmapWell from '@/components/Heatmap/HeatmapWell.tsx';
+import filterPropertiesByNumber from '@/utils/filterMetrics.ts';
 import { useState } from 'react';
 
 type Props = {

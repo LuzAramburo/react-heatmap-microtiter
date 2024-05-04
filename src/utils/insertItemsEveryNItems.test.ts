@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import insertItemsEveryNItems from './insertItemsEveryNItems';
+import insertItemsEveryNItems from './insertItemsEveryNItems.ts';
 
 type ArrayType = string | number | {[keys: string]: string}
 

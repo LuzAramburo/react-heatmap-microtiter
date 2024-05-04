@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import HeatmapPopover from '@/Heatmap/HeatmapPopover.tsx';
-import getColorHeatmap from '../../utils/getColorHeatmap.ts';
+import HeatmapPopover from '@/components/Heatmap/HeatmapPopover.tsx';
+import getColorHeatmap from '@/utils/getColorHeatmap.ts';
 
 type Props = {
   item: {[keys: string]: string};

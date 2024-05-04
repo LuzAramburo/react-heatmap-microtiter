@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import filterPropertiesByNumber from './filterMetrics';
+import filterPropertiesByNumber from './filterMetrics.ts';
 
 describe('filterAndConvertPropertiesToNumbers', () => {
   it('should filter and convert properties to numbers', () => {

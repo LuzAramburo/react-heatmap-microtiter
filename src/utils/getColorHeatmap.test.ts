@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import getColorHeatmap, { findIndexWhereNumberFits, splitNumberIntoRanges } from './getColorHeatmap';
+import getColorHeatmap, { findIndexWhereNumberFits, splitNumberIntoRanges } from './getColorHeatmap.ts';
 
 describe('splitNumberIntoRanges', () => {
   it('should split bigNumber into 5 equal ranges when bigNumber is 100, Without overlaping', () => {

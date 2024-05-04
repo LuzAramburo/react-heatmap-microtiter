@@ -1,4 +1,4 @@
-import canBeNumber from './canBeNumber';
+import canBeNumber from './canBeNumber.ts';
 
 // TODO filter only meta data and empty string?
 function filterPropertiesByNumber<T>(obj: T) {
