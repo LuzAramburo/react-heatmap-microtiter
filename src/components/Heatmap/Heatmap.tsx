@@ -1,21 +1,22 @@
 import { IHeatmapData } from '@/App.tsx';
 import insertItemsEveryNItems from '@/utils/insertItemsEveryNItems.ts';
 import HeatmapWell from '@/components/Heatmap/HeatmapWell.tsx';
-import filterPropertiesByNumber from '@/utils/filterMetrics.ts';
-import { useState } from 'react';
+import useHeatmapStore from '@/store/store.ts';
+import SelectMetric from '@/components/selectMetric.tsx';
 
 type Props = {
   heatmapData: IHeatmapData;
 }
 
 function Heatmap({ heatmapData }: Props) {
+  const { selectedMetric } = useHeatmapStore();
   // console.group('Parser');
 
-  // console.log('results', heatmapData);
+  console.log('results', heatmapData);
   const data = heatmapData.data;
-  console.log('results.data', data);
+  // console.log('results.data', data);
 
-  const metrics = Object.keys(filterPropertiesByNumber(heatmapData.data[0]));
+  // const metrics = Object.keys(filterPropertiesByNumber(heatmapData.data[0]));
   // console.log('properties', properties);
 
   const xAxis= ['', ...new Set(heatmapData.data.map(item => item.Metadata_Row))];
@@ -28,19 +29,12 @@ function Heatmap({ heatmapData }: Props) {
 
   // console.groupEnd();
 
-  const [selectedMetric, setSelectedMetric] = useState(metrics[0]);
   const highestValue = Math.max(...data.map(item => +item[selectedMetric]));
   const lowestValue = Math.min(...data.map(item => +item[selectedMetric]));
 
   return (
     <>
-      <select
-        value={selectedMetric}
-        onChange={(e) => setSelectedMetric(e.target.value)}>
-        {metrics && metrics.length > 0 && metrics.map(metric => (
-          <option value={metric} key={`property${metric}`}>{metric}</option>
-        ))}
-      </select>
+      <SelectMetric />
       <div>selectedMetric: {selectedMetric}</div>
       <div>Highest: {highestValue}</div>
       <div style={{
