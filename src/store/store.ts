@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { ParseResult } from 'papaparse';
 import { devtools } from 'zustand/middleware';
 import insertItemsEveryNItems from '@/utils/insertItemsEveryNItems.ts';
+import validateData from '@/utils/validateData.ts';
 
 export type GenericKeyPairString = {[keys: string]: string}
 export type IHeatmapData = ParseResult<GenericKeyPairString>
@@ -12,40 +13,44 @@ export type IFormatedHeatmap = {
   yAxis: string[];
   table: (string | GenericKeyPairString)[];
 }
+export type ValidateDataError = {type: string; message: string}
 
 type HeatmapStore = {
   rawHeatmap: IHeatmapData | null;
   formattedHeatmap: IFormatedHeatmap | null;
   selectedMetric: string;
+  errors: ValidateDataError[];
   setHeatmapData: (newRawHeatmap: IHeatmapData) => void;
   updateSelectedMetric: (newMetric: string) => void;
 }
-
-// TODO string metrics
 
 const useHeatmapStore = create<HeatmapStore>()(devtools((set) => ({
   rawHeatmap: null,
   formattedHeatmap: null,
   selectedMetric: '',
+  errors: [],
   setHeatmapData: (newRawHeatmap: IHeatmapData) => set(() => {
+    const validatingData = validateData(newRawHeatmap);
+    if (!validatingData.isValid) {
+      return { errors: validatingData.errors };
+    }
+
+    if (newRawHeatmap.errors.length > 0) {
+      return { errors: newRawHeatmap.errors };
+    }
+
     const metrics = newRawHeatmap?.meta.fields?.filter(
       item => item !== '' && !item.includes('Metadata'),
     );
     if (!metrics) throw new Error('No valid metrics available');
 
-
-    // console.group('Parser');
-    // console.log('results', heatmapData);
     const data = newRawHeatmap.data
       .sort((a, b) =>
         a.Metadata_Well.length - b.Metadata_Well.length || a.Metadata_Well.localeCompare(b.Metadata_Well),
       );
-    // console.log('results.data', data);
 
     const xAxis= [...new Set(newRawHeatmap.data.map(item => item.Metadata_Row))];
-    // console.log('xAxis', xAxis);
     const yAxis= [...new Set(newRawHeatmap.data.map(item => item.Metadata_Col))];
-    // console.log('yAxis', yAxis);
 
     const table = [
       '',
@@ -56,8 +61,6 @@ const useHeatmapStore = create<HeatmapStore>()(devtools((set) => ({
         yAxis.length,
       ),
     ];
-    // console.log(table);
-    // console.groupEnd();
 
     const formattedHeatmap = {
       metrics,
