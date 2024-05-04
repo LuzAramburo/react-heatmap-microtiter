@@ -1,6 +1,6 @@
 import './App.css';
 import InputParser from './components/InputParser.tsx';
-import Heatmap from '@/components/Heatmap.tsx';
+import Heatmap from '@/Heatmap/Heatmap.tsx';
 import { useState } from 'react';
 import { ParseResult } from 'papaparse';
 
