@@ -46,4 +46,19 @@ describe('insertItemsFromListEveryNItems', () => {
     // Check if the result matches the expected array
     expect(result).toEqual(expectedArray);
   });
+
+  it.skip('handles N equal to 1 correctly', () => {
+    const originalArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const itemsToInsert = ['a', 'b', 'c', 'd', 'e'];
+    const N = 1;
+
+    const result = insertItemsEveryNItems<ArrayType>(originalArray, itemsToInsert, N);
+
+    // Expected output: all items from itemsToInsert should be interleaved
+    const expectedArray = ['a', 1, 'b', 2, 'c', 3, 'd', 4, 'e', 5, 6, 7, 8, 9, 10];
+    console.log(result);
+
+    // Check if the result matches the expected array
+    expect(result).toEqual(expectedArray);
+  });
 });
