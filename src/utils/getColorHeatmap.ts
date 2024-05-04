@@ -4,7 +4,7 @@ function countDecimalPlaces(number: number) {
 }
 
 export function splitNumberIntoRanges(highNumber: number, numRanges: number, lowNumber: number = 0) {
-  // Calculate the base size of each range using integer division
+  // Calculate the base size of each range
   const rangeSize = (highNumber - lowNumber) / numRanges;
 
   // Initialize an array to hold the ranges
@@ -60,7 +60,7 @@ export function findIndexWhereNumberFits(numberValue: number, arrayOfArrays: num
   // If numberValue does not fit in any range, return -1
   return -1;
 }
-[];
+
 function getColorHeatmap(
   highestValue: number,
   highValue: number,

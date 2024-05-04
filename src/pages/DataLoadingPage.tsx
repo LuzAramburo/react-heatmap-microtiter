@@ -1,5 +1,5 @@
 import InputParser from '@/components/shared/InputParser.tsx';
-import SelectMetric from '@/components/shared/selectMetric.tsx';
+import SelectMetric from '@/components/shared/SelectMetric.tsx';
 import useHeatmapStore from '@/store/store.ts';
 import { Link } from 'react-router-dom';
 

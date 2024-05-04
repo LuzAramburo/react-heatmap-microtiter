@@ -1,6 +1,6 @@
 import HeatmapWell from '@/components/Heatmap/HeatmapWell.tsx';
 import useHeatmapStore from '@/store/store.ts';
-import SelectMetric from '@/components/shared/selectMetric.tsx';
+import SelectMetric from '@/components/shared/SelectMetric.tsx';
 import HeatmapMissing from '@/components/Heatmap/HeatmapMissing.tsx';
 
 function Heatmap() {
@@ -22,7 +22,6 @@ function Heatmap() {
         gridTemplateColumns: `repeat(${formattedHeatmap.xAxis.length}, 1fr)`,
         gridTemplateRows: `repeat(${formattedHeatmap.yAxis.length + 1}, 1fr)`,
       }}>
-        {/*{formattedHeatmap.xAxis.map((item, index) => <div key={`xAxis${item + index}`}>{item}</div>)}*/}
         {formattedHeatmap.table.map((item, index) => {
           if (typeof item === 'object' && !Array.isArray(item) && item !== null) {
             return (
