@@ -1,18 +1,14 @@
-import getColorHeatmap from '@/utils/getColorHeatmap.ts';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/shared/Tooltip.tsx';
 import HeatmapTooltipContent from '@/components/Heatmap/HeatmapTooltipContent.tsx';
 import { useState } from 'react';
 
 type Props = {
   item: {[keys: string]: string};
-  highestValue: number;
-  lowestValue: number;
-  selectedMetric: string;
+  color: string;
 }
 
-function HeatmapWell({ item, highestValue, lowestValue, selectedMetric }: Props) {
+function HeatmapWell({ item, color }: Props) {
   const [isHovered, setIsHovered] = useState(false);
-  const color = getColorHeatmap(highestValue, +item[selectedMetric], lowestValue);
 
   return(
     <>

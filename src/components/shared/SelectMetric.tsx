@@ -15,13 +15,17 @@ function SelectMetric() {
   };
 
   return (
-    <select
-      value={selectedMetric}
-      onChange={(e) => handleSelectedMetric(e)}>
-      {metrics && metrics.length > 0 && metrics.map(metric => (
-        <option value={metric} key={`property${metric}`}>{metric}</option>
-      ))}
-    </select>
+    <>
+      <label htmlFor="metricSelect" style={{ display: 'block' }}>Select Metric</label>
+      <select
+        id="metricSelect"
+        value={selectedMetric}
+        onChange={(e) => handleSelectedMetric(e)}>
+        {metrics && metrics.length > 0 && metrics.map(metric => (
+          <option value={metric} key={`property${metric}`}>{metric}</option>
+        ))}
+      </select>
+    </>
   );
 }
 

@@ -1,21 +1,49 @@
 import HeatmapWell from '@/components/Heatmap/HeatmapWell.tsx';
-import useHeatmapStore from '@/store/store.ts';
-import SelectMetric from '@/components/shared/SelectMetric.tsx';
+import useHeatmapStore, { GenericKeyPairString } from '@/store/store.ts';
 import HeatmapMissing from '@/components/Heatmap/HeatmapMissing.tsx';
+import getColorHeatmap from '@/utils/getColorHeatmap.ts';
+import canBeNumber from '@/utils/canBeNumber.ts';
 
 function Heatmap() {
   const { selectedMetric, formattedHeatmap } = useHeatmapStore();
 
   if (!formattedHeatmap) return <HeatmapMissing />;
 
-  const highestValue = Math.max(...formattedHeatmap.data.map(item => +item[selectedMetric]));
-  const lowestValue = Math.min(...formattedHeatmap.data.map(item => +item[selectedMetric]));
+  const colors = ['#1d4877', '#1b8a5a', '#fbb021', '#f68838', '#ee3e32'];
+
+  const isMetricNumeric = canBeNumber(formattedHeatmap.data[0][selectedMetric]);
+  const metricArray = formattedHeatmap.data.map(item => {
+    if (isMetricNumeric) return +item[selectedMetric];
+    return item[selectedMetric];
+  });
+
+  // If metric is numeric
+  const highestValue = Math.max(...metricArray as number[]);
+  const lowestValue = Math.min(...metricArray as number[]);
+
+  const handleColorNumericMetric = (item: GenericKeyPairString) =>
+    getColorHeatmap(highestValue, +item[selectedMetric], lowestValue, colors);
+
+  // If metric is NOT numeric
+  const metricOptions = [...new Set(metricArray)];
+  const handleColorStringMetric = (item: GenericKeyPairString) => {
+    const index = metricOptions.indexOf(item[selectedMetric]);
+    return colors[index];
+  };
 
   return (
     <>
-      <SelectMetric />
-      <div>selectedMetric: {selectedMetric}</div>
-      <div>Highest: {highestValue}</div>
+      {isMetricNumeric && (
+        <div>
+          <div>Highest Value: {highestValue}</div>
+          <div>Lowest Value: {lowestValue}</div>
+        </div>
+      )}
+      {!isMetricNumeric && (
+        <div>
+          <div>Metric options: {metricOptions.join(', ')}</div>
+        </div>
+      )}
       <div style={{
         display: 'grid',
         gridAutoFlow: 'column',
@@ -28,9 +56,7 @@ function Heatmap() {
               <HeatmapWell
                 key={`data${item.Metadata_Well + index}`}
                 item={item}
-                highestValue={highestValue}
-                selectedMetric={selectedMetric}
-                lowestValue={lowestValue}
+                color={isMetricNumeric ? handleColorNumericMetric(item) : handleColorStringMetric(item)}
               />);
           }
           return <div key={`yAxis${item}${index}`}>{item}</div>;
