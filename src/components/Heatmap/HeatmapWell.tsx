@@ -11,6 +11,7 @@ type Props = {
 
 function HeatmapWell({ item, highestValue, lowestValue, selectedMetric }: Props) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
   return(
     <>
       <div style={{

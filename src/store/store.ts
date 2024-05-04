@@ -36,22 +36,26 @@ const useHeatmapStore = create<HeatmapStore>()(devtools((set) => ({
 
     // console.group('Parser');
     // console.log('results', heatmapData);
-    const data = newRawHeatmap.data;
+    const data = newRawHeatmap.data
+      .sort((a, b) =>
+        a.Metadata_Well.length - b.Metadata_Well.length || a.Metadata_Well.localeCompare(b.Metadata_Well),
+      );
     // console.log('results.data', data);
 
-    // const metrics = Object.keys(filterPropertiesByNumber(heatmapData.data[0]));
-    // console.log('properties', properties);
-
-    const xAxis= ['', ...new Set(newRawHeatmap.data.map(item => item.Metadata_Row))];
+    const xAxis= [...new Set(newRawHeatmap.data.map(item => item.Metadata_Row))];
     // console.log('xAxis', xAxis);
     const yAxis= [...new Set(newRawHeatmap.data.map(item => item.Metadata_Col))];
     // console.log('yAxis', yAxis);
 
-    const table = insertItemsEveryNItems<string | GenericKeyPairString>(
-      data,
-      yAxis,
-      xAxis.length - 1,
-    );
+    const table = [
+      '',
+      ...yAxis,
+      ...insertItemsEveryNItems<string | GenericKeyPairString>(
+        data,
+        xAxis,
+        yAxis.length,
+      ),
+    ];
     // console.log(table);
     // console.groupEnd();
 

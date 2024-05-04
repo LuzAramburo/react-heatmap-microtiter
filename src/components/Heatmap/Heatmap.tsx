@@ -1,6 +1,6 @@
 import HeatmapWell from '@/components/Heatmap/HeatmapWell.tsx';
 import useHeatmapStore from '@/store/store.ts';
-import SelectMetric from '@/components/selectMetric.tsx';
+import SelectMetric from '@/components/shared/selectMetric.tsx';
 import HeatmapMissing from '@/components/Heatmap/HeatmapMissing.tsx';
 
 function Heatmap() {
@@ -18,10 +18,11 @@ function Heatmap() {
       <div>Highest: {highestValue}</div>
       <div style={{
         display: 'grid',
+        gridAutoFlow: 'column',
         gridTemplateColumns: `repeat(${formattedHeatmap.xAxis.length}, 1fr)`,
-        gridTemplateRows: `repeat(${formattedHeatmap.yAxis.length}, 1fr)`,
+        gridTemplateRows: `repeat(${formattedHeatmap.yAxis.length + 1}, 1fr)`,
       }}>
-        {formattedHeatmap.xAxis.map((item, index) => <div key={`xAxis${item + index}`}>{item}</div>)}
+        {/*{formattedHeatmap.xAxis.map((item, index) => <div key={`xAxis${item + index}`}>{item}</div>)}*/}
         {formattedHeatmap.table.map((item, index) => {
           if (typeof item === 'object' && !Array.isArray(item) && item !== null) {
             return (
