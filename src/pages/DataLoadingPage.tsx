@@ -1,5 +1,5 @@
 import InputParser from '@/components/shared/InputParser/InputParser.tsx';
-import SelectMetric from '@/components/shared/SelectMetric.tsx';
+import SelectMetric from '@/components/shared/SelectMetric/SelectMetric.tsx';
 import useHeatmapStore from '@/store/store.ts';
 import { Link } from 'react-router-dom';
 
@@ -19,6 +19,7 @@ function DataLoadingPage () {
       ))}
       {rawHeatmap && rawHeatmap.errors.length === 0 && (
         <>
+          <p style={{ color: 'var(--green-color)' }}>Data loaded Successfully</p>
           <SelectMetric/>
           <br/>
           <Link to="/visualization" className="button mt-1">Go to Data Visualization</Link>

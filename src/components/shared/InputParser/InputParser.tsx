@@ -19,14 +19,12 @@ function InputParser() {
 
   return (
     <div>
-      {/*<span>Upload File</span>*/}
       <input
         type="file"
         name="file"
         accept=".csv"
         onChange={changeHandler}
         className={classes.inputFile}
-        // style={{ display: 'block', margin: '10px auto' }}
       />
     </div>
   );
