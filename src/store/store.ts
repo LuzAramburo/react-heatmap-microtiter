@@ -20,6 +20,7 @@ type HeatmapStore = {
   formattedHeatmap: IFormatedHeatmap | null;
   selectedMetric: string;
   errors: ValidateDataError[];
+  clearFile: () => void;
   setHeatmapData: (newRawHeatmap: IHeatmapData) => void;
   updateSelectedMetric: (newMetric: string) => void;
 }
@@ -29,6 +30,7 @@ const useHeatmapStore = create<HeatmapStore>()(devtools((set) => ({
   formattedHeatmap: null,
   selectedMetric: '',
   errors: [],
+  clearFile: () => set({ rawHeatmap: null, formattedHeatmap: null }),
   setHeatmapData: (newRawHeatmap: IHeatmapData) => set(() => {
     const validatingData = validateData(newRawHeatmap);
     if (!validatingData.isValid) {
@@ -74,6 +76,7 @@ const useHeatmapStore = create<HeatmapStore>()(devtools((set) => ({
       rawHeatmap: newRawHeatmap,
       selectedMetric: metrics[0],
       formattedHeatmap,
+      errors: [],
     };
   },
   ),
