@@ -4,6 +4,7 @@ import HeatmapMissing from '@/components/Heatmap/HeatmapMissing.tsx';
 import getColorHeatmap from '@/utils/getColorHeatmap.ts';
 import canBeNumber from '@/utils/canBeNumber.ts';
 import HeatmapMetricInfo from '@/components/Heatmap/HeatmapMetricInfo.tsx';
+import classes from './Heatmap.module.css';
 
 function Heatmap() {
   const { selectedMetric, formattedHeatmap } = useHeatmapStore();
@@ -40,12 +41,12 @@ function Heatmap() {
         highestValue={highestValue}
         metricOptions={metricOptions}
       />
-      <div style={{
-        display: 'grid',
-        gridAutoFlow: 'column',
-        gridTemplateColumns: `repeat(${formattedHeatmap.xAxis.length}, 1fr)`,
-        gridTemplateRows: `repeat(${formattedHeatmap.yAxis.length + 1}, 1fr)`,
-      }}>
+      <div
+        className={classes.grid}
+        style={{
+          gridTemplateColumns: `32px repeat(${formattedHeatmap.xAxis.length}, minmax(0, 1fr))`,
+          gridTemplateRows: `repeat(${formattedHeatmap.yAxis.length + 1}, minmax(0, 1fr))`,
+        }}>
         {formattedHeatmap.table.map((item, index) => {
           if (typeof item === 'object' && !Array.isArray(item) && item !== null) {
             return (
