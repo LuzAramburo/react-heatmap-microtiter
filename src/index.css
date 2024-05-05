@@ -1,7 +1,10 @@
 :root {
   --primary-color-rgb: 224, 122, 95;
   --primary-color: rgb(var(--primary-color-rgb));
+  --primary-dark-color: #d65a31;
   --text-color: #30130b;
+  --light-gray-color: #eeeeee;
+  --dark-gray-color: #222831;
 }
 
 body {

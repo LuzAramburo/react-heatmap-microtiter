@@ -1,14 +1,19 @@
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
+import classes from './RootPage.module.css';
 
 function RootPage() {
   return (
-    <div>
-      <nav>
-        <Link to="/">Data Loading</Link>
-        <Link to="/visualization">Data Visualization</Link>
+    <>
+      <nav className={classes.nav}>
+        <NavLink to="/"
+          className={({ isActive }) => isActive ? classes.active : ''}
+        >Data Loading</NavLink>
+        <NavLink to="/visualization"
+          className={({ isActive }) => isActive ? classes.active : ''}
+        >Data Visualization</NavLink>
       </nav>
       <Outlet />
-    </div>
+    </>
   );
 }
 export default RootPage;
