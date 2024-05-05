@@ -31,7 +31,7 @@ function HeatmapWell({ item, color }: Props) {
             </div>
           </div>
         </TooltipTrigger>
-        <TooltipContent className="Tooltip">
+        <TooltipContent className="tooltip">
           <HeatmapTooltipContent item={item} />
         </TooltipContent>
       </Tooltip>

@@ -1,6 +1,7 @@
 import Papa from 'papaparse';
 import { ChangeEvent } from 'react';
 import useHeatmapStore, { IHeatmapData } from '@/store/store.ts';
+import classes from './InputParser.module.css';
 
 function InputParser() {
   const { setHeatmapData } = useHeatmapStore();
@@ -17,17 +18,17 @@ function InputParser() {
   };
 
   return (
-    <>
-      <div>
-        <input
-          type="file"
-          name="file"
-          accept=".csv"
-          onChange={changeHandler}
-          style={{ display: 'block', margin: '10px auto' }}
-        />
-      </div>
-    </>
+    <div>
+      {/*<span>Upload File</span>*/}
+      <input
+        type="file"
+        name="file"
+        accept=".csv"
+        onChange={changeHandler}
+        className={classes.inputFile}
+        // style={{ display: 'block', margin: '10px auto' }}
+      />
+    </div>
   );
 }
 

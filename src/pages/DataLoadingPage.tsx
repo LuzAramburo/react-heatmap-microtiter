@@ -1,4 +1,4 @@
-import InputParser from '@/components/shared/InputParser.tsx';
+import InputParser from '@/components/shared/InputParser/InputParser.tsx';
 import SelectMetric from '@/components/shared/SelectMetric.tsx';
 import useHeatmapStore from '@/store/store.ts';
 import { Link } from 'react-router-dom';
@@ -19,10 +19,9 @@ function DataLoadingPage () {
       ))}
       {rawHeatmap && rawHeatmap.errors.length === 0 && (
         <>
-          <label>Select Metric</label>
           <SelectMetric/>
           <br/>
-          <Link to="/visualization">Go to Data Visualization</Link>
+          <Link to="/visualization" className="button mt-1">Go to Data Visualization</Link>
         </>
       )}
       <div>
