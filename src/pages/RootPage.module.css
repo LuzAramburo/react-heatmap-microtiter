@@ -1,7 +1,7 @@
 .nav {
   background-color: var(--light-gray-color);
   padding: 1rem;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   display: flex;
   gap: 1rem;
 }

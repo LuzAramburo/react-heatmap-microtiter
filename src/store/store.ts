@@ -30,7 +30,7 @@ const useHeatmapStore = create<HeatmapStore>()(devtools((set) => ({
   formattedHeatmap: null,
   selectedMetric: '',
   errors: [],
-  clearFile: () => set({ rawHeatmap: null, formattedHeatmap: null }),
+  clearFile: () => set({ rawHeatmap: null, formattedHeatmap: null, errors: [] }),
   setHeatmapData: (newRawHeatmap: IHeatmapData) => set(() => {
     const validatingData = validateData(newRawHeatmap);
     if (!validatingData.isValid) {

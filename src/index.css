@@ -6,6 +6,7 @@
   --light-gray-color: #eeeeee;
   --dark-gray-color: #222831;
   --green-color: #058c42;
+  --border-radius: 3px;
 }
 
 body {
@@ -37,7 +38,7 @@ a:hover {
 .button {
   background-color: var(--primary-color);
   color: white;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   padding: 0.5rem 1rem;
   display: inline-block;
   text-decoration: none;
