@@ -2,7 +2,6 @@ import InputParser from '@/components/shared/InputParser/InputParser.tsx';
 import SelectMetric from '@/components/shared/SelectMetric/SelectMetric.tsx';
 import useHeatmapStore from '@/store/store.ts';
 import { Link } from 'react-router-dom';
-import classes from './DataLoadingPage.module.css';
 
 function DataLoadingPage () {
   const { rawHeatmap, errors } = useHeatmapStore();
@@ -26,7 +25,7 @@ function DataLoadingPage () {
           <Link to="/visualization" className="button mt-1">Go to Data Visualization</Link>
         </>
       )}
-      <div className={classes.callout}>
+      <div className="callout">
         <h2>Information</h2>
         <h3>Requirements Columns</h3>
         <ul>

@@ -3,6 +3,7 @@ import useHeatmapStore, { GenericKeyPairString } from '@/store/store.ts';
 import HeatmapMissing from '@/components/Heatmap/HeatmapMissing.tsx';
 import getColorHeatmap from '@/utils/getColorHeatmap.ts';
 import canBeNumber from '@/utils/canBeNumber.ts';
+import HeatmapMetricInfo from '@/components/Heatmap/HeatmapMetricInfo.tsx';
 
 function Heatmap() {
   const { selectedMetric, formattedHeatmap } = useHeatmapStore();
@@ -33,17 +34,12 @@ function Heatmap() {
 
   return (
     <>
-      {isMetricNumeric && (
-        <div>
-          <div>Highest Value: {highestValue}</div>
-          <div>Lowest Value: {lowestValue}</div>
-        </div>
-      )}
-      {!isMetricNumeric && (
-        <div>
-          <div>Metric options: {metricOptions.join(', ')}</div>
-        </div>
-      )}
+      <HeatmapMetricInfo
+        isMetricNumeric={isMetricNumeric}
+        lowestValue={lowestValue}
+        highestValue={highestValue}
+        metricOptions={metricOptions}
+      />
       <div style={{
         display: 'grid',
         gridAutoFlow: 'column',
