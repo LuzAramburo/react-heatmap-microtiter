@@ -2,6 +2,7 @@ import HeatmapWell from '@/components/Heatmap/HeatmapWell.tsx';
 import useHeatmapStore from '@/store/store.ts';
 import HeatmapMissing from '@/components/Heatmap/HeatmapMissing.tsx';
 import classes from './Heatmap.module.css';
+import HeatmapMetricInfo from '@/components/Heatmap/HeatmapMetricInfo.tsx';
 
 function Heatmap() {
   const { formattedHeatmap } = useHeatmapStore();
@@ -10,12 +11,7 @@ function Heatmap() {
 
   return (
     <>
-      {/*<HeatmapMetricInfo*/}
-      {/*  isMetricNumeric={isMetricNumeric}*/}
-      {/*  lowestValue={lowestValueInMetric}*/}
-      {/*  highestValue={highestValueInMetric}*/}
-      {/*  metricOptions={metricOptions}*/}
-      {/*/>*/}
+      <HeatmapMetricInfo />
       <div
         className={classes.grid}
         style={{

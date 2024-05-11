@@ -14,12 +14,14 @@ function formatHeatmap(newRawHeatmap: RawParsedData, selectedMetric: string): IF
       xAxis: [],
       yAxis: [],
       table: [],
+      metricInfo: null,
     };
   }
 
   const validatingData = validateData(newRawHeatmap);
   if (!validatingData.isValid) {
     return {
+      metricInfo: null,
       errors: validatingData.errors,
       xAxis: [],
       yAxis: [],
@@ -28,7 +30,13 @@ function formatHeatmap(newRawHeatmap: RawParsedData, selectedMetric: string): IF
   }
 
   const isMetricNumeric = canBeNumber(newRawHeatmap.data[0][selectedMetric]);
-  const metricOptions = [...new Set(newRawHeatmap.data.map(item => item[selectedMetric]))];
+  // const metricOptions = [...new Set(newRawHeatmap.data.map(item => item[selectedMetric]))]; // TODO reduce
+  const metricOptions = newRawHeatmap.data.reduce((acc, currentItem) => {
+    if (acc === '') return currentItem[selectedMetric];
+    if (!acc.includes(currentItem[selectedMetric])) return acc.concat(',', currentItem[selectedMetric]) ;
+    return acc;
+  }, '')
+    .split(',');
 
   const rangesForNumericMetric= getRangesForNumericMetric(
     newRawHeatmap.data,
@@ -36,13 +44,23 @@ function formatHeatmap(newRawHeatmap: RawParsedData, selectedMetric: string): IF
     heatmapColors.length,
   );
 
+  const metricInfo = {
+    isNumeric: isMetricNumeric,
+    highestValue: 0,
+    lowestValue: isMetricNumeric ? +newRawHeatmap.data[0][selectedMetric]: 0,
+    metricOptions,
+  };
+
   const data = newRawHeatmap.data
     .sort((a, b) =>
       a.Metadata_Well.length - b.Metadata_Well.length || a.Metadata_Well.localeCompare(b.Metadata_Well),
     )
     .map(item => {
       if (isMetricNumeric) {
-        const color = getColorHeatmap(+item[selectedMetric], rangesForNumericMetric, heatmapColors);
+        const itemMetricValue = +item[selectedMetric];
+        const color = getColorHeatmap(itemMetricValue, rangesForNumericMetric, heatmapColors);
+        if (itemMetricValue > metricInfo.highestValue) metricInfo.highestValue = itemMetricValue;
+        if (itemMetricValue < metricInfo.lowestValue) metricInfo.lowestValue = itemMetricValue;
         return { ...item, color };
       } else {
         const index = metricOptions.indexOf(item[selectedMetric]);
@@ -65,6 +83,7 @@ function formatHeatmap(newRawHeatmap: RawParsedData, selectedMetric: string): IF
   ];
 
   return {
+    metricInfo,
     xAxis,
     yAxis,
     table,
