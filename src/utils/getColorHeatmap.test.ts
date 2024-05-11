@@ -1,12 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import getColorHeatmap, { findIndexWhereNumberFits, splitNumberIntoRanges } from './getColorHeatmap.ts';
+import getColorHeatmap, { findIndexWhereNumberFits } from './getColorHeatmap.ts';
+import { splitNumberIntoRanges } from '@/utils/getRangesForNumericMetric.ts';
 
 describe('splitNumberIntoRanges', () => {
-  it('should split bigNumber into 5 equal ranges when bigNumber is 100, Without overlaping', () => {
+  it('should split bigNumber into 5 equal ranges when bigNumber is 100, Without overlying', () => {
     const bigNumber = 100;
     const numRanges = 5;
 
-    const result = splitNumberIntoRanges(bigNumber, numRanges);
+    const result = splitNumberIntoRanges(numRanges, bigNumber);
 
     const expectedRanges = [[0, 19], [20, 39], [40, 59], [60, 79], [80, 100]];
 
@@ -59,12 +60,13 @@ describe('findIndexWhereNumberFits', () => {
 
 describe('getColorHeatmap', () => {
   it('should return the correct color for a given numberValue', () => {
-    const highestValue = 100;
-    const numberValue = 75;
+    const wellValueForMetric = 15;
+    const rangesForMetric = [[0, 5], [6, 11], [12, 15]];
+    const heatmapColors = ['#1d4877', '#1b8a5a', '#fbb021', '#f68838', '#ee3e32'];
 
-    const expectedColor = '#f68838'; // Based on the default colors
+    const expectedColor = heatmapColors[2]; // Based on the default colors
 
-    const result = getColorHeatmap(highestValue, numberValue);
+    const result = getColorHeatmap(wellValueForMetric, rangesForMetric, heatmapColors);
 
     expect(result).toEqual(expectedColor);
   });
