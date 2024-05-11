@@ -5,7 +5,14 @@ import formatHeatmap from '@/utils/formatHeatmap.ts';
 
 export type GenericKeyPairString = {[keys: string]: string}
 export type RawParsedData = ParseResult<GenericKeyPairString>
+export type SelectedMetricInfo = {
+  isNumeric: boolean;
+  highestValue: number;
+  lowestValue: number;
+  metricOptions: string[];
+}
 export type IFormatedHeatmap = {
+  metricInfo: SelectedMetricInfo | null;
   errors?: ValidateDataError[];
   xAxis: string[];
   yAxis: string[];
@@ -15,8 +22,9 @@ export type ValidateDataError = {type: string; message: string}
 
 type State = {
   metrics: string[];
+  selectedMetricInfo: SelectedMetricInfo | null;
   rawHeatmap: RawParsedData | null;
-  formattedHeatmap: IFormatedHeatmap | null;
+  formattedHeatmap: Omit<IFormatedHeatmap, 'metricInfo'> | null;
   selectedMetric: string;
   errors: ValidateDataError[];
 }
@@ -33,6 +41,7 @@ const useHeatmapStore = create<State & Actions>()(devtools((set) => ({
   rawHeatmap: null,
   formattedHeatmap: null,
   selectedMetric: '',
+  selectedMetricInfo: null,
   errors: [],
   metrics: [],
   clearFile: () => set({ rawHeatmap: null, formattedHeatmap: null, errors: [] }),
@@ -43,11 +52,12 @@ const useHeatmapStore = create<State & Actions>()(devtools((set) => ({
     if (!metrics) throw new Error('No valid metrics available');
     const selectedMetric = metrics[0];
 
-    const formattedHeatmap = formatHeatmap(newRawHeatmap, selectedMetric);
+    const { metricInfo, ...formattedHeatmap } = formatHeatmap(newRawHeatmap, selectedMetric);
 
     return {
       rawHeatmap: newRawHeatmap,
       metrics,
+      selectedMetricInfo: metricInfo,
       selectedMetric,
       formattedHeatmap,
       errors: [],
@@ -56,8 +66,8 @@ const useHeatmapStore = create<State & Actions>()(devtools((set) => ({
   ),
   updateSelectedMetric: (newMetric: string) => set(({ rawHeatmap }) => {
     if (!rawHeatmap) throw new Error('No data available');
-    const formattedHeatmap = formatHeatmap(rawHeatmap, newMetric);
-    return { selectedMetric: newMetric, formattedHeatmap };
+    const { metricInfo, ...formattedHeatmap } = formatHeatmap(rawHeatmap, newMetric);
+    return { selectedMetric: newMetric, formattedHeatmap, selectedMetricInfo: metricInfo };
   }),
 })));
 

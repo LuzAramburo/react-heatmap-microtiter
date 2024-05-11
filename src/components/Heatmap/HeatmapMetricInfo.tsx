@@ -1,23 +1,20 @@
-type Props = {
-  isMetricNumeric: boolean;
-  highestValue: number;
-  lowestValue: number;
-  metricOptions: (number | string)[];
-}
+import useHeatmapStore from '@/store/store.ts';
 
-function HeatmapMetricInfo({ isMetricNumeric, lowestValue, highestValue, metricOptions }: Props) {
-  if (isMetricNumeric) return (
+function HeatmapMetricInfo() {
+  const { selectedMetricInfo } = useHeatmapStore();
+
+  if (selectedMetricInfo?.isNumeric) return (
     <div className="callout mb-1">
-      <b>Metric Info</b>
-      <div>Highest Value: {highestValue}</div>
-      <div>Lowest Value: {lowestValue}</div>
+      <b>Selected Metric Info</b>
+      <div>Highest Value: {selectedMetricInfo.highestValue}</div>
+      <div>Lowest Value: {selectedMetricInfo.lowestValue}</div>
     </div>
   );
 
   return (
     <div className="callout mb-1">
-      <b>Metric Info</b>
-      <div>Metric options: {metricOptions.join(', ')}</div>
+      <b>Selected Metric Info</b>
+      <div>Metric options: {selectedMetricInfo?.metricOptions.join(',')}</div>
     </div>
   );
 }
