@@ -30,7 +30,6 @@ function formatHeatmap(newRawHeatmap: RawParsedData, selectedMetric: string): IF
   }
 
   const isMetricNumeric = canBeNumber(newRawHeatmap.data[0][selectedMetric]);
-  // const metricOptions = [...new Set(newRawHeatmap.data.map(item => item[selectedMetric]))]; // TODO reduce
   const metricOptions = newRawHeatmap.data.reduce((acc, currentItem) => {
     if (acc === '') return currentItem[selectedMetric];
     if (!acc.includes(currentItem[selectedMetric])) return acc.concat(',', currentItem[selectedMetric]) ;
