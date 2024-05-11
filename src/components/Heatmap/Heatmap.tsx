@@ -1,7 +1,7 @@
 import HeatmapWell from '@/components/Heatmap/HeatmapWell.tsx';
 import useHeatmapStore, { GenericKeyPairString } from '@/store/store.ts';
 import HeatmapMissing from '@/components/Heatmap/HeatmapMissing.tsx';
-import getColorHeatmap from '@/utils/getColorHeatmap.ts';
+import getColorHeatmap, { splitNumberIntoRanges } from '@/utils/getColorHeatmap.ts';
 import canBeNumber from '@/utils/canBeNumber.ts';
 import HeatmapMetricInfo from '@/components/Heatmap/HeatmapMetricInfo.tsx';
 import classes from './Heatmap.module.css';
@@ -22,10 +22,15 @@ function Heatmap() {
   // If metric is numeric
   const highestValueInMetric = Math.max(...metricArray as number[]);
   const lowestValueInMetric = Math.min(...metricArray as number[]);
+  const rangesForMetric = splitNumberIntoRanges(
+    colors.length,
+    highestValueInMetric,
+    lowestValueInMetric,
+  );
 
   const handleColorNumericMetric = (item: GenericKeyPairString) => {
-    return getColorHeatmap(highestValueInMetric, lowestValueInMetric, +item[selectedMetric], colors);
-  }
+    return getColorHeatmap(+item[selectedMetric], rangesForMetric, colors);
+  };
 
   // If metric is NOT numeric
   const metricOptions = [...new Set(metricArray)];

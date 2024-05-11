@@ -3,7 +3,11 @@ function countDecimalPlaces(number: number) {
   return decimalIndex >= 0 ? number.toString().length - decimalIndex - 1 : 0;
 }
 
-export function splitNumberIntoRanges(highNumber: number, numRanges: number, lowNumber: number = 0) {
+export function splitNumberIntoRanges(
+  numRanges: number,
+  highNumber: number,
+  lowNumber: number = 0,
+) {
   // Calculate the base size of each range
   const rangeSize = (highNumber - lowNumber) / numRanges;
 
@@ -62,13 +66,11 @@ export function findIndexWhereNumberFits(numberValue: number, arrayOfArrays: num
 }
 
 function getColorHeatmap(
-  highestValueInMetric: number,
-  lowestValueInMetric: number = 0,
   wellValueForMetric: number,
+  rangesForMetric: number[][],
   colors: string[] = ['#1d4877', '#1b8a5a', '#fbb021', '#f68838', '#ee3e32'],
 ): string {
-  const ranges = splitNumberIntoRanges(highestValueInMetric, colors.length, lowestValueInMetric);
-  const index = findIndexWhereNumberFits(wellValueForMetric, ranges);
+  const index = findIndexWhereNumberFits(wellValueForMetric, rangesForMetric);
   return colors[index];
 }
 
