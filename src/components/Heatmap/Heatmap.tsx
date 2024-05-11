@@ -2,17 +2,11 @@ import HeatmapWell from '@/components/Heatmap/HeatmapWell.tsx';
 import useHeatmapStore from '@/store/store.ts';
 import HeatmapMissing from '@/components/Heatmap/HeatmapMissing.tsx';
 import classes from './Heatmap.module.css';
-import { useEffect } from 'react';
 
 function Heatmap() {
   const { formattedHeatmap } = useHeatmapStore();
 
-  useEffect(() => {
-    console.log('formattedHeatmap changed');
-  }, [formattedHeatmap]);
-
   if (!formattedHeatmap) return <HeatmapMissing />;
-
 
   return (
     <>
