@@ -6,6 +6,7 @@ import insertItemsEveryNItems from '@/utils/insertItemsEveryNItems.ts';
 import { GenericKeyPairString, heatmapColors, IHeatmapData } from '@/store/store.ts';
 
 function formatHeatmap(newRawHeatmap: IHeatmapData, selectedMetric: string) {
+  if (!selectedMetric) throw new Error('Missing selected Metric');
   const validatingData = validateData(newRawHeatmap);
   if (!validatingData.isValid) {
     return { errors: validatingData.errors };
