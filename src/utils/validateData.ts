@@ -1,4 +1,4 @@
-import { IHeatmapData, ValidateDataError } from '@/store/store.ts';
+import { RawParsedData, ValidateDataError } from '@/store/store.ts';
 
 export function isMissingCol(fields: string[], requiredCols: string[]) {
   // Initialize an array to accumulate the missing strings from ArrayB
@@ -17,7 +17,7 @@ export function isMissingCol(fields: string[], requiredCols: string[]) {
   return missingStrings;
 }
 
-function validateData(rawData: IHeatmapData) {
+function validateData(rawData: RawParsedData) {
   const errors: ValidateDataError[] = [];
   const requiredCols = [
     'Metadata_Col',

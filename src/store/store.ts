@@ -1,14 +1,12 @@
 import { create } from 'zustand';
 import { ParseResult } from 'papaparse';
 import { devtools } from 'zustand/middleware';
-import getColorHeatmap from '@/utils/getColorHeatmap.ts';
-import canBeNumber from '@/utils/canBeNumber.ts';
 import formatHeatmap from '@/utils/formatHeatmap.ts';
 
 export type GenericKeyPairString = {[keys: string]: string}
-export type IHeatmapData = ParseResult<GenericKeyPairString>
+export type RawParsedData = ParseResult<GenericKeyPairString>
 export type IFormatedHeatmap = {
-  metrics: string[];
+  errors?: ValidateDataError[];
   xAxis: string[];
   yAxis: string[];
   table: (string | GenericKeyPairString)[];
@@ -17,7 +15,7 @@ export type ValidateDataError = {type: string; message: string}
 
 type State = {
   metrics: string[];
-  rawHeatmap: IHeatmapData | null;
+  rawHeatmap: RawParsedData | null;
   formattedHeatmap: IFormatedHeatmap | null;
   selectedMetric: string;
   errors: ValidateDataError[];
@@ -25,7 +23,7 @@ type State = {
 
 type Actions = {
   clearFile: () => void;
-  setHeatmapData: (newRawHeatmap: IHeatmapData) => void;
+  setHeatmapData: (newRawHeatmap: RawParsedData) => void;
   updateSelectedMetric: (newMetric: string) => void;
 }
 
@@ -36,15 +34,16 @@ const useHeatmapStore = create<State & Actions>()(devtools((set) => ({
   formattedHeatmap: null,
   selectedMetric: '',
   errors: [],
+  metrics: [],
   clearFile: () => set({ rawHeatmap: null, formattedHeatmap: null, errors: [] }),
-  setHeatmapData: (newRawHeatmap: IHeatmapData) => set(() => {
+  setHeatmapData: (newRawHeatmap: RawParsedData) => set(() => {
     const metrics = newRawHeatmap?.meta.fields?.filter(
       item => item !== '' && !item.includes('Metadata'),
     );
     if (!metrics) throw new Error('No valid metrics available');
     const selectedMetric = metrics[0];
 
-    const formattedHeatmap = formatHeatmap(newRawHeatmap);
+    const formattedHeatmap = formatHeatmap(newRawHeatmap, selectedMetric);
 
     return {
       rawHeatmap: newRawHeatmap,
@@ -56,6 +55,7 @@ const useHeatmapStore = create<State & Actions>()(devtools((set) => ({
   },
   ),
   updateSelectedMetric: (newMetric: string) => set(({ rawHeatmap }) => {
+    if (!rawHeatmap) throw new Error('No data available');
     const formattedHeatmap = formatHeatmap(rawHeatmap, newMetric);
     return { selectedMetric: newMetric, formattedHeatmap };
   }),
