@@ -6,10 +6,8 @@ function SelectMetric() {
   const {
     selectedMetric,
     updateSelectedMetric,
-    formattedHeatmap,
+    metrics,
   } = useStore(state => state);
-
-  const metrics = formattedHeatmap?.metrics;
 
   const handleSelectedMetric = (e: ChangeEvent<HTMLSelectElement>) => {
     updateSelectedMetric(e.target.value);

@@ -4,10 +4,9 @@ import { useState } from 'react';
 
 type Props = {
   item: {[keys: string]: string};
-  color: string;
 }
 
-function HeatmapWell({ item, color }: Props) {
+function HeatmapWell({ item }: Props) {
   const [isHovered, setIsHovered] = useState(false);
 
   return(
@@ -17,10 +16,10 @@ function HeatmapWell({ item, color }: Props) {
           <div style={{
             border: '1px solid black',
             position: 'relative',
-            background: color,
+            background: item.color,
             transform: isHovered ? 'scale(1.2)' : '',
             zIndex: isHovered ? '2': '1',
-            boxShadow: isHovered ? `0px 0px 5px ${color}` : 'none',
+            boxShadow: isHovered ? `0px 0px 5px ${item.color}` : 'none',
             cursor: 'pointer',
           }}
           onMouseEnter={() => setIsHovered(true)}

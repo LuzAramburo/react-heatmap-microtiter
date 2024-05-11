@@ -1,6 +1,6 @@
 import Papa from 'papaparse';
 import { ChangeEvent, useRef } from 'react';
-import useHeatmapStore, { IHeatmapData } from '@/store/store.ts';
+import useHeatmapStore, { RawParsedData } from '@/store/store.ts';
 import classes from './InputParser.module.css';
 
 function InputParser() {
@@ -12,7 +12,7 @@ function InputParser() {
     Papa.parse(event.target.files[0], {
       header: true,
       skipEmptyLines: true,
-      complete: function (results: IHeatmapData) {
+      complete: function (results: RawParsedData) {
         setHeatmapData(results);
       },
     });
