@@ -20,11 +20,12 @@ function Heatmap() {
   });
 
   // If metric is numeric
-  const highestValue = Math.max(...metricArray as number[]);
-  const lowestValue = Math.min(...metricArray as number[]);
+  const highestValueInMetric = Math.max(...metricArray as number[]);
+  const lowestValueInMetric = Math.min(...metricArray as number[]);
 
-  const handleColorNumericMetric = (item: GenericKeyPairString) =>
-    getColorHeatmap(highestValue, +item[selectedMetric], lowestValue, colors);
+  const handleColorNumericMetric = (item: GenericKeyPairString) => {
+    return getColorHeatmap(highestValueInMetric, lowestValueInMetric, +item[selectedMetric], colors);
+  }
 
   // If metric is NOT numeric
   const metricOptions = [...new Set(metricArray)];
@@ -37,8 +38,8 @@ function Heatmap() {
     <>
       <HeatmapMetricInfo
         isMetricNumeric={isMetricNumeric}
-        lowestValue={lowestValue}
-        highestValue={highestValue}
+        lowestValue={lowestValueInMetric}
+        highestValue={highestValueInMetric}
         metricOptions={metricOptions}
       />
       <div

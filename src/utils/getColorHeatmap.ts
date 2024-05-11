@@ -62,13 +62,13 @@ export function findIndexWhereNumberFits(numberValue: number, arrayOfArrays: num
 }
 
 function getColorHeatmap(
-  highestValue: number,
-  highValue: number,
-  lowValue: number = 0,
+  highestValueInMetric: number,
+  lowestValueInMetric: number = 0,
+  wellValueForMetric: number,
   colors: string[] = ['#1d4877', '#1b8a5a', '#fbb021', '#f68838', '#ee3e32'],
 ): string {
-  const ranges = splitNumberIntoRanges(highestValue, colors.length, lowValue);
-  const index = findIndexWhereNumberFits(highValue, ranges);
+  const ranges = splitNumberIntoRanges(highestValueInMetric, colors.length, lowestValueInMetric);
+  const index = findIndexWhereNumberFits(wellValueForMetric, ranges);
   return colors[index];
 }
 
